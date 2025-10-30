@@ -1,3 +1,12 @@
+"""This module implements and runs a Flask application which serves an HTML
+page for detecting emotion from an input text. When started, the server listens
+on address '0.0.0.0' at port '5000'.
+
+Usage:
+    To run the server, excute this file using this command:
+    $ python3 server.py
+"""
+
 from flask import Flask, render_template, request
 from EmotionDetection import emotion_detector
 
@@ -36,6 +45,7 @@ def run_emotion_detector():
 
 @app.route('/')
 def home_page():
+    """Renders the home (or index) page of the application."""
     return render_template('index.html')
 
 
