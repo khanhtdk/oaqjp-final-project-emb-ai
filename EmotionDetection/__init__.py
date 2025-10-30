@@ -20,7 +20,7 @@ def emotion_detector(text_to_analyze):
 
     # Handle failed response with status code 400
     if response.status_code == 400:
-        # Return data struct with `None` values
+        # Return data struct with `None` values for all keys
         return {
             'anger': None, 'disgust': None, 'fear': None,
             'joy': None, 'sadness': None, 'dominant_emotion': None
