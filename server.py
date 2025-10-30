@@ -18,6 +18,8 @@ def run_emotion_detector():
 
     # Read domimant emotion and remove it from the dictionary data
     dominant_emotion = emotion_data.pop('dominant_emotion')
+
+    # Handle invalid text inputted
     if dominant_emotion is None:
         return 'Invalid text! Please try again!'
 
