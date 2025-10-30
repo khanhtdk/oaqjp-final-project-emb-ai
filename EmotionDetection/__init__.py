@@ -8,32 +8,28 @@ def emotion_detector(text_to_analyze):
 
     # URL endpoint for accessing the Emotion Predict function
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
-    
+
     # Request headers required by the Emotion Predict function
     headers = {'grpc-metadata-mm-model-id': 'emotion_aggregated-workflow_lang_en_stock'}
-    
-    # Input data sent to the Emotion Predict function
-    input_data = {'raw_document': {'text': text_to_analyze}}
+
+    # Request data sent to the Emotion Predict function
+    request_data = {'raw_document': {'text': text_to_analyze}}
 
     # Send POST request to the Emotion Predict function and receive response
-    response = requests.post(url, json=input_data, headers=headers)
+    response = requests.post(url, json=request_data, headers=headers)
 
     # Convert the response text into a dictionary
     data = json.loads(response.text)
 
-    # Extract the set of emotions from the dictionary data
-    emotion_data = data['emotionPredictions'][0]['emotion']
+    # Extract emotions from the response data and store as output data
+    output_data = data['emotionPredictions'][0]['emotion']
 
-    # Loop through each item in the emotion data and find one whose score is dominant
-    dominant_name, dominant_score = '', 0
-    for name, score in emotion_data.items():
-        if score > dominant_score:
-            dominant_score = score
-            dominant_name = name
+    # Sort emotions in reversed order using score as the sorting key.
+    sorted_data = sorted(output_data.items(), key=lambda i: i[1], reverse=True)
 
-    # Write the dominant emotion's name having found to the emotion data
-    emotion_data['dominant_emotion'] = dominant_name
+    # Store the dominant emotion's name to the output data, which is the first
+    # item found in the sorted list of emotions.
+    output_data['dominant_emotion'] = sorted_data[0][0]
 
-    # Return emotion data
-    return emotion_data
-    
+    # Return the output data
+    return output_data
