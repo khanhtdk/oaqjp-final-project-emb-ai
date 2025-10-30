@@ -18,6 +18,14 @@ def emotion_detector(text_to_analyze):
     # Send POST request to the Emotion Predict function and receive response
     response = requests.post(url, json=request_data, headers=headers)
 
+    # Handle failed response with status code 400
+    if response.status_code == 400:
+        # Return data struct with `None` values
+        return {
+            'anger': None, 'disgust': None, 'fear': None,
+            'joy': None, 'sadness': None, 'dominant_emotion': None
+        }
+
     # Convert the response text into a dictionary
     data = json.loads(response.text)
 
